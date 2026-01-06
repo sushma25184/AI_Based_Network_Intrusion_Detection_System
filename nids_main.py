@@ -41,26 +41,26 @@ st.dataframe(data.head())
 # --------------------------------------------------
 # PREPROCESS DATA
 # --------------------------------------------------
-# Target column
 target_col = "Label"
 
-# Convert labels to binary
 data[target_col] = data[target_col].apply(
     lambda x: 0 if x == "BENIGN" else 1
 )
 
-# Select only numeric features
 X = data.select_dtypes(include=[np.number])
 y = data[target_col]
 
-# Handle missing & infinite values
 X = X.replace([np.inf, -np.inf], np.nan)
 X = X.fillna(0)
 
 # --------------------------------------------------
 # SIDEBAR – MODEL CONTROLS
 # --------------------------------------------------
-st.sidebar.header("Control Panel")
+# ✅ ADDED (DOES NOT CHANGE YOUR LOGIC)
+st.sidebar.title("Control Panel")
+st.sidebar.markdown("---")
+
+st.sidebar.header("Model Configuration")
 
 train_size = st.sidebar.slider(
     "Training Data Size (%)", 60, 90, 80
@@ -94,7 +94,6 @@ if st.sidebar.button("Train Model Now"):
     st.subheader("Model Performance")
     st.success(f"Accuracy: {acc * 100:.2f}%")
 
-    # Confusion Matrix
     cm = confusion_matrix(y_test, y_pred)
 
     fig, ax = plt.subplots()
